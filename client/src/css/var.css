@@ -1,0 +1,12 @@
+*, html, body{
+    margin: 0;
+    padding: 0;
+}
+
+:root{
+    --nav-bg: rgb(6, 6, 6);
+}
+
+i{
+    margin: 5px 10px;
+}

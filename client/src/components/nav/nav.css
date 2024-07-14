@@ -1,0 +1,38 @@
+ul{
+    list-style: none;
+    background-color: var(--nav-bg);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+}
+
+ul li{
+    display: inline-block;
+    padding: 20px;
+}
+
+.left{
+    margin-right: auto;
+}
+
+.center{
+    margin: auto;
+}
+
+.center li{
+    margin: 0 25px;
+}
+
+.right{
+    margin-left: auto;
+    margin-right: 25px;
+}
+
+button.btnLogout{
+    background-color: white;
+    color: black;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
