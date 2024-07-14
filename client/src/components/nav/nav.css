@@ -20,20 +20,13 @@ button.btnLogout{
     text-align: center;
     cursor: pointer;
 }
-    
-    /* .left{
-        margin-right: auto;
-    }
-    
-    .center{
-        margin: auto;
-    }
-    
-    .center li{
-        margin: 0 25px;
-    }
-    
-    .right{
-        margin-left: auto;
-        margin-right: 25px;
-    } */
+
+img.logo{
+    height: 60px;
+    margin: 0 10px;
+}
+
+.left li{
+    display: flex;
+    align-items: center;
+}
