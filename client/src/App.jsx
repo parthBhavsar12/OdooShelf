@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <Nav/><Home/>
-      {/* <Nav/><Books/> */}
+      <Nav/><Books/>
     </>
   )
 }
