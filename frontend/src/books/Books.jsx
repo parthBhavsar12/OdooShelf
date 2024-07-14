@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
+import { AddBook } from "./AddBook";
+import { UpdateBook } from "./UpdateBook";
 
 export const Books = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [books, setBooks] = useState([]);
   const [error, setError] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openDialog = () => setIsOpen(true);
+  const closeDialog = () => setIsOpen(false);
   console.log(books);
   const fetchBooks = async () => {
     setIsFetching(true);
@@ -31,19 +37,22 @@ export const Books = () => {
       setIsFetching(false);
     }
   };
-  useEffect(() => {
-    fetchBooks();
-  }, []);
-  if (isFetching) {
-    return <h1>Loading...</h1>;
-  }
+  // useEffect(() => {
+  //   fetchBooks();
+  // }, []);
+  // if (isFetching) {
+  //   return <h1>Loading...</h1>;
+  // }
   return (
     <div class="container mx-auto py-8">
       <h1 class="text-3xl font-bold mb-8">Book Management</h1>
       <div class="mb-8">
         <div class="flex items-center justify-between mb-4">
           <h2 class="text-2xl font-bold">Book List</h2>
-          <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+          <button
+            onClick={openDialog}
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+          >
             Add Book
           </button>
         </div>
@@ -177,7 +186,10 @@ export const Books = () => {
                   </div>
                 </td>
                 <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
-                  <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
+                  <button
+                    onClick={openDialog}
+                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+                  >
                     Edit
                   </button>
                   <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-9 rounded-md px-3">
@@ -333,6 +345,22 @@ export const Books = () => {
           </div>
         </div>
       </div>
+      {isOpen && (
+        <AddBook
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          closeDialog={closeDialog}
+          openDialog={openDialog}
+        />
+      )}
+      {isOpen && (
+        <UpdateBook
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          closeDialog={closeDialog}
+          openDialog={openDialog}
+        />
+      )}
     </div>
   );
 };
