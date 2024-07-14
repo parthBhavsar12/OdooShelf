@@ -76,7 +76,11 @@ export const login = async (req: Request, res: Response) => {
 };
 export const signup = async (req: Request, res: Response) => {
   try {
+    let { role } = req.body;
     const { email, password, confirmPassword } = req.body;
+    if (!role) {
+      role = "user";
+    }
     if (!email || !password || !confirmPassword) {
       return res.status(400).json({
         status: "failed",
@@ -87,6 +91,7 @@ export const signup = async (req: Request, res: Response) => {
       email,
       password,
       confirmPassword,
+      role,
     });
     createSendToken(newUser, 201, res);
   } catch (error: any) {

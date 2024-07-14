@@ -4,7 +4,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../state/authSlice";
 import { Button } from "@/components/ui/button";
-export const Signup = () => {
+export const LibrarianSignup = () => {
   // const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +15,7 @@ export const Signup = () => {
   const error = useSelector((state) => state.auth.error);
   const submitLogin = (e) => {
     e.preventDefault();
-    dispatch(signup({ email, password, confirmPassword, role: "user" }));
+    dispatch(signup({ email, password, confirmPassword, role: "librarian" }));
   };
   useEffect(() => {
     // If user is logged in, navigate to homepage
@@ -88,8 +88,8 @@ export const Signup = () => {
               </Link>
               <p className="m-2">OR</p>
               Are you Librarain ?{" "}
-              <Link className="underline" to="/librarian-signup">
-                signup here
+              <Link className="underline" to="/librarian-login">
+                login here
               </Link>
             </p>
             {/* <p style={{ textAlign: "center", textDecoration: "underline" }}>

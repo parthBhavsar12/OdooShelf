@@ -9,6 +9,28 @@ export interface UserDocument extends Document {
   role: "user" | "admin" | "librarian"; // Define enum values as a union type
   // Other properties...
 }
+const borrowHistorySchema = new mongoose.Schema({
+  book: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Book",
+    required: true,
+  },
+  borrowDate: {
+    type: Date,
+    required: true,
+  },
+  dueDate: {
+    type: Date,
+    required: true,
+  },
+  returnDate: {
+    type: Date,
+  },
+  lateFee: {
+    type: Number,
+    default: 0,
+  },
+});
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -35,10 +57,17 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["user", "admin","librarian"],
+    enum: ["user", "admin", "librarian"],
     default: "user",
     required: true,
   },
+  currentBorrowings: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Book",
+    },
+  ],
+  borrowHistory: [borrowHistorySchema],
 });
 userSchema.pre("save", async function (next: NextFunction) {
   this.password = await bcrypt.hash(this.password, 12);

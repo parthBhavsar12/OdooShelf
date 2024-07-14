@@ -13,6 +13,7 @@ export const Login = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn) ?? false;
   const error = useSelector((state) => state.auth.error);
+  // const [userRole, setUserRole] = useState("customer");
   const notify = () => {
     // toast("Default Notification !");
 

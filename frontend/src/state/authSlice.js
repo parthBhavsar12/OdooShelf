@@ -13,32 +13,9 @@ export const login = createAsyncThunk(
 );
 export const signup = createAsyncThunk(
   "auth/signup",
-  async (
-    { fullName, email, password, confirmPassword },
-    { rejectWithValue }
-  ) => {
+  async ({ email, password, confirmPassword, role }, { rejectWithValue }) => {
     try {
       const response = await signupAPI({
-        fullName,
-        email,
-        password,
-        confirmPassword,
-      });
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-export const signupDoctor = createAsyncThunk(
-  "auth/signupDoctor",
-  async (
-    { fullName, email, password, confirmPassword, role },
-    { rejectWithValue }
-  ) => {
-    try {
-      const response = await signupAPI({
-        fullName,
         email,
         password,
         confirmPassword,
@@ -50,6 +27,7 @@ export const signupDoctor = createAsyncThunk(
     }
   }
 );
+
 export const checkUser = createAsyncThunk(
   "auth/checkUser",
   async (_, { rejectWithValue }) => {
@@ -133,18 +111,6 @@ export const authSlice = createSlice({
       .addCase(signup.rejected, (state, action) => {
         state.loading = false;
         state.isLoggedIn = false;
-        state.error = action.payload;
-        state.user = null;
-      })
-      .addCase(signupDoctor.fulfilled, (state, action) => {
-        state.loading = false;
-        state.isLoggedIn = true;
-        state.error = null;
-        state.user = action.payload.user;
-      })
-      .addCase(signupDoctor.rejected, (state, action) => {
-        state.isLoggedIn = false;
-        state.loading = false;
         state.error = action.payload;
         state.user = null;
       });

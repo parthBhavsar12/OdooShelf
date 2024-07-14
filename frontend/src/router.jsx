@@ -1,9 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import { Login } from "./auth/Login";
-import { Books } from "./books/Books";
+// import { Books } from "./books/Books1";
 import { Signup } from "./auth/Signup";
 import { LibrarainLogin } from "./auth/LibrarainLogin";
+import { LibrarianSignup } from "./auth/SignupLib";
+import Books from "./books/Books";
+import Home from "./Home";
+import UserBooks from "./books/UserBooks";
+import BorrowedBooks from "./books/GetBorrowedBooks";
 
 const router = createBrowserRouter([
   {
@@ -11,9 +16,18 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: "books",
-        children: [{ index: true, element: <Books /> }],
+        path: "/",
+        children: [{ index: true, element: <Home /> }],
       },
+      {
+        path: "books",
+        children: [
+          { index: true, element: <UserBooks /> },
+          { path: "library-books", element: <Books /> },
+          { path: "get-borrowed-books", element: <BorrowedBooks /> },
+        ],
+      },
+
       // {
       //   path: "profile",
       //   children: [
@@ -53,6 +67,10 @@ const router = createBrowserRouter([
   {
     path: "librarian-login",
     element: <LibrarainLogin />,
+  },
+  {
+    path: "librarian-signup",
+    element: <LibrarianSignup />,
   },
   {
     path: "signup",

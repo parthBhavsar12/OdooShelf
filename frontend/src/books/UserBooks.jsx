@@ -1,19 +1,28 @@
-import { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import "./books.css";
+import BookImage from "./book.png";
 import { useDispatch, useSelector } from "react-redux";
-import { AddBook } from "./AddBook";
-import { UpdateBook } from "./UpdateBook";
-import { getAllBooks, deleteBook } from "@/state/bookSlice";
+import { borrowBook, getAllBooks } from "@/state/bookSlice";
+import { Link } from "react-router-dom";
 
-// import { DeleteBook } from "./DeleteBook";
-
-export const Books = () => {
-  const [isAddOpen, setIsAddOpen] = useState(false);
-  const [isEditOpen, setIsEditOpen] = useState(false);
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-
+function UserBooks() {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth?.user?._id);
+  useEffect(() => {
+    const fetchUser = async () => {
+      setLoading(true);
+      try {
+        await dispatch(checkUser());
+      } catch (error) {
+        console.error("Error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [dispatch, user]);
   const books = useSelector((state) => state.book.books);
-  console.log("returned books", books);
   useEffect(() => {
     const fetchBooks = async () => {
       try {
@@ -24,25 +33,15 @@ export const Books = () => {
     };
     fetchBooks();
   }, []);
-
-  const handleDelete = async (bookId) => {
+  const handleBorrowBook = async (e, bookId) => {
+    e.preventDefault();
+    e.stopPropagation();
     try {
-      console.log("book id in book: ", bookId);
-      await dispatch(deleteBook(bookId));
-      // Optionally, you can re-fetch the books after deletion:
-      // await dispatch(getAllBooks());
+      await dispatch(borrowBook({ userId: user, bookId }));
     } catch (error) {
       console.log(error);
     }
   };
-
-  const openAddDialog = () => setIsAddOpen(true);
-  const closeAddDialog = () => setIsAddOpen(false);
-  const openEditDialog = () => setIsEditOpen(true);
-  const closeEditDialog = () => setIsEditOpen(false);
-  const openDeleteDialog = () => setIsDeleteOpen(true);
-  const closeDeleteDialog = () => setIsDeleteOpen(false);
-
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-8">Book Management</h1>
@@ -50,10 +49,10 @@ export const Books = () => {
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-2xl font-bold">Book List</h2>
           <button
-            onClick={openAddDialog}
+            // onClick={openAddDialog}
             className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
           >
-            Add Book
+            <Link to="/books/get-borrowed-books">Get Borrowed Books</Link>
           </button>
         </div>
         <div className="flex items-center mb-4">
@@ -118,7 +117,7 @@ export const Books = () => {
                       {book.isbn}
                     </td>
                     <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
-                      {book.title}
+                      {book.name}
                     </td>
                     <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
                       {book.author}
@@ -145,17 +144,17 @@ export const Books = () => {
                     </td>
                     <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
                       <button
-                        onClick={openEditDialog}
+                        onClick={(e) => handleBorrowBook(e, book._id)}
                         className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
                       >
-                        Edit
+                        Borrow
                       </button>
-                      <button
-                        onClick={() => handleDelete(book._id)}
+                      {/* <button
+                        onClick={openDeleteDialog}
                         className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-9 rounded-md px-3"
                       >
                         Delete
-                      </button>
+                      </button> */}
                     </td>
                   </tr>
                 ))}
@@ -163,32 +162,8 @@ export const Books = () => {
           </table>
         </div>
       </div>
-      {isAddOpen && (
-        <AddBook
-          isOpen={isAddOpen}
-          setIsOpen={setIsAddOpen}
-          closeDialog={closeAddDialog}
-          openDialog={openAddDialog}
-        />
-      )}
-      {isEditOpen && (
-        <UpdateBook
-          isOpen={isEditOpen}
-          setIsOpen={setIsEditOpen}
-          closeDialog={closeEditDialog}
-          openDialog={openEditDialog}
-        />
-      )}
-      {isDeleteOpen && (
-        <DeleteBook
-          isOpen={isDeleteOpen}
-          setIsOpen={setIsDeleteOpen}
-          closeDialog={closeDeleteDialog}
-          openDialog={openDeleteDialog}
-        />
-      )}
     </div>
   );
-};
+}
 
-export default Books;
+export default UserBooks;

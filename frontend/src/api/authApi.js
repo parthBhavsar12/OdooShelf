@@ -11,18 +11,12 @@ export const loginAPI = async ({ email, password }) => {
     throw error;
   }
 };
-export const signupAPI = async ({
-  fullName,
-  email,
-  password,
-  confirmPassword,
-  role,
-}) => {
+export const signupAPI = async ({ email, password, confirmPassword, role }) => {
   try {
     console.log(role);
     const response = await axios.post(
       "http://localhost:3000/api/v1/auth/signup",
-      { fullName, email, password, confirmPassword, role },
+      { email, password, confirmPassword, role },
       { withCredentials: true }
     );
     return response;
