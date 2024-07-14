@@ -2,7 +2,7 @@ nav{
     position: sticky;
     top: 0;
     z-index: 1000;
-    opacity: 0.9;
+    /* opacity: 0.9; */
 }
 
 ul{
@@ -17,6 +17,7 @@ ul{
 ul li{
     display: inline-block;
     padding: 20px;
+    font-size: 25px;
 }
 
 button.btnLogout{
@@ -26,6 +27,11 @@ button.btnLogout{
     border-radius: 5px;
     text-align: center;
     cursor: pointer;
+    font-size: 22px;
+}
+
+button.btnLogout i{
+    margin: 5px;
 }
 
 img.logo{
